@@ -1,6 +1,8 @@
 import json
 from settings import *
+import sys
 import logging
+import os
 from os import listdir
 from datetime import datetime
 from datetime import date
@@ -60,7 +62,7 @@ def getSlave(base_path,  filename='picloud.json', sign=''):
 
 	return None;
 
-def handleSyncStart (filename):
+def checkRunningProcessAndMark (filename):
 	now = datetime.today()
 	dateFormat = "%Y-%m-%d %H:%M:%S"
 	try:
@@ -73,7 +75,7 @@ def handleSyncStart (filename):
 		print syncMark
 		json.dump(syncMark, f)
 		#We can start syncing here
-		return None
+		return False
 	
 	logging.debug("Found a sync file")
 	p = json.load(f)
@@ -86,7 +88,7 @@ def handleSyncStart (filename):
 	if (dateDiff.days > 7):
 		#Here we might want to send an email to the admin
 		logging.error("Heyyyyy!!!! Something is really broken here. Please find out what's happening")
-
+	return True
 
 
 def run():
@@ -102,6 +104,17 @@ def run():
 		logging.info("We have a slave in {0}".format(slave['path']))
 
 	if master!= None and slave != None:
-		handleSyncStart("pisync.json")
+		otherProcess = checkRunningProcessAndMark("pisync.json")
 
+		if otherProcess is False:
+			#we can sync
+			command = "rsync -avz --exclude={2} {0}/ {1}/"
+			command = command.format(master['path'], slave['path'], INFO_FILE_NAME)
+			logging.debug(command)
+			resp = os.system(command)
+			logging.debug(resp)
+			#print command
+print "Running piucloud"
+print sys.argv
 run()
+
