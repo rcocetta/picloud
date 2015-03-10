@@ -5,3 +5,5 @@ Personal backup system for Raspeberry pi
 This is a little program that allows you to keep 2 discs in sync in a master slave configuration, so that you can take the master with you and always keep a safe copy on the slave connected to your Pi.
 
 My initial thoughts are detailed [here](https://github.com/rcocetta/picloud/wiki/First-Thoughts)
+
+** While writing it, I realised that, of course it'll work on any Linux machine with Python installed. **
