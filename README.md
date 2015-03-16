@@ -6,4 +6,16 @@ This is a little program that allows you to keep 2 discs in sync in a master sla
 
 My initial thoughts are detailed [here](https://github.com/rcocetta/picloud/wiki/First-Thoughts)
 
-** While writing it, I realised that, of course it'll work on any Linux machine with Python installed. **
+## Use 
+### Run the system as it is
+```
+python main.py run 
+```
+### Install it in crontab
+Make it run every minute
+
+```
+python main.py install
+```
+
+**While writing it, I realised that, of course it'll work on any Linux machine with Python installed.**
